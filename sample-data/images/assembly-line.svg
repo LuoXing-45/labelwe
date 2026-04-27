@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#f8f7f2"/>
+  <rect x="0" y="0" width="1280" height="130" fill="#264653"/>
+  <rect x="0" y="520" width="1280" height="200" fill="#cad2c5"/>
+  <rect x="120" y="380" width="1040" height="70" rx="24" fill="#2f3e46"/>
+  <rect x="210" y="250" width="150" height="120" rx="12" fill="#ef476f"/>
+  <rect x="410" y="210" width="170" height="160" rx="12" fill="#ffd166"/>
+  <rect x="650" y="240" width="180" height="130" rx="12" fill="#06d6a0"/>
+  <rect x="900" y="195" width="220" height="175" rx="12" fill="#118ab2"/>
+  <line x1="0" y1="520" x2="1280" y2="520" stroke="#52796f" stroke-width="6"/>
+  <text x="120" y="88" font-family="Georgia, serif" font-size="42" fill="#f4f1de">Assembly Monitoring</text>
+</svg>
+

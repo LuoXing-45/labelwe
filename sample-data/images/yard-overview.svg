@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#ede0d4"/>
+  <rect x="0" y="520" width="1280" height="200" fill="#b08968"/>
+  <rect x="100" y="150" width="340" height="260" rx="24" fill="#2d3142"/>
+  <rect x="160" y="210" width="120" height="90" rx="10" fill="#f4f1de"/>
+  <rect x="300" y="210" width="120" height="90" rx="10" fill="#f4f1de"/>
+  <rect x="540" y="300" width="430" height="160" rx="18" fill="#ff7a18"/>
+  <circle cx="640" cy="485" r="48" fill="#1f2933"/>
+  <circle cx="890" cy="485" r="48" fill="#1f2933"/>
+  <rect x="980" y="260" width="180" height="220" rx="16" fill="#6a4c93"/>
+  <text x="80" y="90" font-family="Georgia, serif" font-size="44" fill="#2d3142">Warehouse Yard</text>
+</svg>
+

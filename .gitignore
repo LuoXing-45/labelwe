@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+backend/.pytest_cache/
+backend/.coverage
+backend/labelwe.db
+backend/test.db
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+sample-data/exports/
+playwright-report/
+test-results/
+*.log
+

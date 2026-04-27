@@ -1,0 +1,7 @@
+fastapi==0.115.12
+uvicorn[standard]==0.34.0
+sqlalchemy==2.0.40
+pymysql==1.1.1
+cryptography==44.0.3
+httpx==0.28.1
+pytest==8.3.5

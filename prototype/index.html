@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LabelWe Prototype</title>
+    <style>
+      :root {
+        --paper: #f7efe1;
+        --ink: #1b1b1b;
+        --line: rgba(27, 27, 27, 0.12);
+        --accent: #ff7a18;
+        --blue: #00a6fb;
+        --green: #2b9348;
+        --danger: #c44536;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Aptos", "Segoe UI Variable Text", sans-serif;
+        background:
+          radial-gradient(circle at top right, rgba(255, 122, 24, 0.16), transparent 24%),
+          radial-gradient(circle at left bottom, rgba(0, 166, 251, 0.12), transparent 24%),
+          linear-gradient(135deg, #f7efe1 0%, #efe7db 50%, #f9f4ec 100%);
+        color: var(--ink);
+      }
+      .shell {
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        min-height: 100vh;
+      }
+      aside {
+        padding: 24px;
+        background: rgba(23, 23, 23, 0.96);
+        color: #fff8ee;
+      }
+      aside h1, h2, h3 {
+        font-family: "Rockwell", "Georgia", serif;
+        margin: 0;
+      }
+      .brand {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        margin-bottom: 28px;
+      }
+      .mark {
+        width: 54px;
+        height: 54px;
+        border-radius: 16px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, var(--accent), #ffb703);
+        color: #1b1b1b;
+        font-weight: 700;
+      }
+      .nav button, .ghost, .primary {
+        width: 100%;
+        margin-bottom: 10px;
+        border-radius: 16px;
+        border: 1px solid transparent;
+        padding: 12px 14px;
+        background: rgba(255, 255, 255, 0.08);
+        color: inherit;
+        cursor: pointer;
+        text-align: left;
+      }
+      .nav button.active { background: rgba(255,255,255,0.14); }
+      main { padding: 24px; display: grid; gap: 18px; }
+      .hero, .panel {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        background: rgba(255,255,255,0.78);
+        box-shadow: 0 28px 70px rgba(27, 27, 27, 0.1);
+      }
+      .hero::before, .panel::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(rgba(27,27,27,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(27,27,27,0.03) 1px, transparent 1px);
+        background-size: 24px 24px;
+        pointer-events: none;
+      }
+      .hero { padding: 26px; display: grid; grid-template-columns: 1.4fr 0.8fr; gap: 16px; }
+      .metrics { display: grid; gap: 12px; }
+      .metrics div {
+        padding: 18px;
+        border-radius: 18px;
+        background: rgba(255,255,255,0.72);
+        border: 1px solid var(--line);
+      }
+      .grid { display: grid; grid-template-columns: 280px 1fr 340px; gap: 18px; }
+      .panel { padding: 18px; }
+      .image-list, .review-list, .classes { display: grid; gap: 10px; }
+      .image-item, .review-item, .class-item {
+        padding: 14px;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: rgba(255,255,255,0.78);
+        cursor: pointer;
+      }
+      .image-item.active, .review-item.active { border-color: rgba(255, 122, 24, 0.45); box-shadow: inset 0 0 0 1px rgba(255,122,24,0.22); }
+      .stage {
+        position: relative;
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        min-height: 480px;
+        background: #f0ece4;
+      }
+      .stage img { width: 100%; display: block; }
+      .bbox {
+        position: absolute;
+        border: 2px solid var(--accent);
+        border-radius: 14px;
+      }
+      .bbox.blue { border-color: var(--blue); }
+      .bbox span {
+        position: absolute;
+        left: 8px;
+        top: 8px;
+        padding: 4px 8px;
+        border-radius: 999px;
+        background: var(--accent);
+        color: white;
+        font-size: 12px;
+      }
+      .bbox.blue span { background: var(--blue); }
+      .toolbar, .review-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+      .ghost, .primary { width: auto; margin: 0; text-align: center; }
+      .primary { background: linear-gradient(135deg, var(--accent), #ffb703); color: #1b1b1b; font-weight: 700; }
+      textarea {
+        width: 100%;
+        min-height: 92px;
+        border-radius: 16px;
+        border: 1px solid var(--line);
+        padding: 12px;
+        background: rgba(255,255,255,0.9);
+      }
+      .status {
+        display: inline-flex;
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: rgba(43,147,72,0.12);
+        color: var(--green);
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .status.review { background: rgba(255,122,24,0.12); color: #a14a00; }
+      .status.fail { background: rgba(196,69,54,0.12); color: var(--danger); }
+      .footnote { color: rgba(255,255,255,0.68); font-size: 14px; margin-top: 24px; }
+      @media (max-width: 1180px) {
+        .shell, .hero, .grid { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <aside>
+        <div class="brand">
+          <div class="mark">LW</div>
+          <div>
+            <div style="font-size:12px; letter-spacing:0.18em; text-transform:uppercase; opacity:.72;">Prototype</div>
+            <h1>LabelWe</h1>
+          </div>
+        </div>
+        <div class="nav">
+          <button class="active">任务工作台</button>
+          <button>审核队列</button>
+          <button>审计回放</button>
+        </div>
+        <p class="footnote">这个原型用于快速验证三件事：任务分发是否清楚，标注器是否顺手，审核员的批量通过和打回原因是否足够顺。</p>
+      </aside>
+      <main>
+        <section class="hero">
+          <div>
+            <div style="font-size:12px; letter-spacing:0.18em; text-transform:uppercase; color:#5b5b5b; margin-bottom:10px;">Interaction Prototype</div>
+            <h2 style="font-size:44px;">协同标注、审核和追溯，在一张工作台里闭环</h2>
+            <p>左侧是任务图片栈，中间是近似 LabelImg 的标注面板，右侧展示类别、审核反馈和当前操作者动作。切换任务图片和审核结果时，右上角计数会同步变化。</p>
+          </div>
+          <div class="metrics">
+            <div><strong style="font-size:34px;">3</strong><div>待标注样本</div></div>
+            <div><strong style="font-size:34px;">1</strong><div>待审核提交</div></div>
+            <div><strong style="font-size:34px;">14</strong><div>审计事件</div></div>
+          </div>
+        </section>
+
+        <section class="grid">
+          <div class="panel">
+            <h3 style="margin-bottom:14px;">任务图片</h3>
+            <div class="image-list">
+              <div class="image-item active" data-image="../sample-data/images/yard-overview.svg">
+                <strong>yard-overview.svg</strong>
+                <div class="status review">待审核</div>
+              </div>
+              <div class="image-item" data-image="../sample-data/images/assembly-line.svg">
+                <strong>assembly-line.svg</strong>
+                <div class="status">已通过</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="toolbar">
+              <button class="ghost">上一张</button>
+              <button class="ghost">下一张</button>
+              <button class="ghost">标记无目标</button>
+              <button class="primary">提交审核</button>
+            </div>
+            <div class="stage">
+              <img id="preview" src="../sample-data/images/yard-overview.svg" alt="prototype preview" />
+              <div class="bbox" style="left:42%; top:42%; width:22%; height:24%;">
+                <span>car</span>
+              </div>
+              <div class="bbox blue" style="left:77%; top:35%; width:14%; height:30%;">
+                <span>forklift</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h3 style="margin-bottom:14px;">审核控制</h3>
+            <div class="review-list">
+              <div class="review-item active">
+                <strong>yard-overview.svg</strong>
+                <div class="status review" id="current-status">待审核</div>
+              </div>
+              <div class="review-item">
+                <strong>assembly-line.svg</strong>
+                <div class="status">已通过</div>
+              </div>
+            </div>
+            <div class="classes" style="margin-top:18px;">
+              <div class="class-item">car · 橙色</div>
+              <div class="class-item">person · 蓝色</div>
+              <div class="class-item">forklift · 紫色</div>
+            </div>
+            <div class="review-actions" style="margin-top:18px;">
+              <button class="ghost" id="approve">逐张通过</button>
+              <button class="ghost" id="reject">打回并写原因</button>
+              <button class="primary">批量通过</button>
+            </div>
+            <textarea id="reason">托盘车边界需要再贴合一些，建议收紧右侧框。</textarea>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script>
+      const preview = document.getElementById("preview");
+      const status = document.getElementById("current-status");
+      const imageItems = Array.from(document.querySelectorAll(".image-item"));
+      const approve = document.getElementById("approve");
+      const reject = document.getElementById("reject");
+      imageItems.forEach((item) => {
+        item.addEventListener("click", () => {
+          imageItems.forEach((node) => node.classList.remove("active"));
+          item.classList.add("active");
+          preview.src = item.dataset.image;
+          status.textContent = item.textContent.includes("assembly-line") ? "已通过" : "待审核";
+          status.className = item.textContent.includes("assembly-line") ? "status" : "status review";
+        });
+      });
+      approve.addEventListener("click", () => {
+        status.textContent = "已通过";
+        status.className = "status";
+      });
+      reject.addEventListener("click", () => {
+        status.textContent = "已打回";
+        status.className = "status fail";
+      });
+    </script>
+  </body>
+</html>
+
