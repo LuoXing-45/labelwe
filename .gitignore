@@ -13,4 +13,7 @@ sample-data/exports/
 playwright-report/
 test-results/
 *.log
-
+artifacts/
+*.png
+*.db
+backend/tests/test.db
